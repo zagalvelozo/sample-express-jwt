@@ -1,1 +1,19 @@
-
+{
+  "name": "My Web App",
+  "short_name": "My Web App",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000", 
+  "description": "Express Web App.",
+  "author":"Jesús Zagal",
+  "lang": "es",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "launcher-icon-4x.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

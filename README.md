@@ -1,3 +1,5 @@
-# CHATPHP
+# MyApp
 
-Chat php redes
+Simple App Express
+  npm i
+  npm start

@@ -1,5 +1,12 @@
-# MyApp
+# Simple Express JSON Web Token Aplication
 
-Simple App Express
- <br><code> npm i</code>
- <br><code> npm start</code>
+## Request
+
+- [Node.js Latest LTS Version: 18.x](https://nodejs.org/en/download/)
+
+## Getting Started
+
+```sh
+npm install
+npm run start
+```

@@ -22,7 +22,7 @@
     "methods": "1.1.2",
     "mongoose": "5.13.20",
     "mongoose-unique-validator": "1.0.2",
-    "passport": "0.3.2",
+    "passport": "0.6.0",
     "passport-local": "1.0.0",
     "request": "2.69.0",
     "slug": "0.9.2",

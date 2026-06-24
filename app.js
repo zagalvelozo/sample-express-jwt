@@ -10,6 +10,10 @@ var path = require('path'),
 
 var isProduction = process.env.NODE_ENV === 'production';
 
+// Register models before routes (routes depend on mongoose.model())
+require('./models/User');
+require('./config/passport');
+
 var index = require('./routes/index');
 
 var app = express();
@@ -40,9 +44,6 @@ if(isProduction){
   mongoose.connect('mongodb://localhost/MyDB');
   mongoose.set('debug', true);
 }
-
-require('./models/User');
-require('./config/passport');
 
 app.use('/', index);
 

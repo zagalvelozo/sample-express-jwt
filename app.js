@@ -1,14 +1,10 @@
-var http = require('http'),
-    path = require('path'),
-    methods = require('methods'),
+var path = require('path'),
     express = require('express'),
-    bodyParser = require('body-parser'),
     session = require('express-session'),
     cors = require('cors'),
     passport = require('passport'),
     errorhandler = require('errorhandler'),
     cookieParser = require('cookie-parser'),
-    favicon = require('serve-favicon'),
     logger = require('morgan'),
     mongoose = require('mongoose');
 
@@ -20,20 +16,15 @@ var app = express();
 
 app.use(cors());
 
-app.use(require('morgan')('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(logger('dev'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

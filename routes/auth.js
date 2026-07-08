@@ -14,13 +14,13 @@ var auth = {
   required: jwt({
     secret: secret,
     algorithms: ['HS256'],
-    userProperty: 'payload',
+    requestProperty: 'payload',
     getToken: getTokenFromHeader
   }),
   optional: jwt({
     secret: secret,
     algorithms: ['HS256'],
-    userProperty: 'payload',
+    requestProperty: 'payload',
     credentialsRequired: false,
     getToken: getTokenFromHeader
   })

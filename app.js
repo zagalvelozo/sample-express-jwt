@@ -5,7 +5,7 @@ var path = require('path'),
     passport = require('passport'),
     errorhandler = require('errorhandler'),
     cookieParser = require('cookie-parser'),
-    logger = require('morgan'),
+    { logger, httpLogger } = require('./config/logger'),
     mongoose = require('mongoose');
 
 var isProduction = process.env.NODE_ENV === 'production';
@@ -20,7 +20,7 @@ var app = express();
 
 app.use(cors());
 
-app.use(logger('dev'));
+app.use(httpLogger);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -30,7 +30,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { dotfiles: 'allow' }));
 
 app.use(session({ secret: 'MyCookie', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
 
@@ -66,7 +66,7 @@ app.use(function(err, req, res, next) {
 
 if (!isProduction) {
   app.use(function(err, req, res, next) {
-    console.log(err.stack);
+    logger.error(err.stack);
 
     res.status(err.status || 500);
 

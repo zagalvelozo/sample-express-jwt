@@ -1,0 +1,10 @@
+{
+  "roots": [
+    {
+      "type": "page",
+      "title": "Simple Auth JWT",
+      "url": "http://localhost:3000/",
+      "webSocketDebuggerUrl": "ws://localhost:9222/devtools/page/<page-id>"
+    }
+  ]
+}

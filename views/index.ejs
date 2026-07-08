@@ -1,4 +1,70 @@
 <%- include('header') %>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+<div id="loggedOut" class="container" style="display: none;">
+  <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-8 text-center">
+      <h1 class="display-4 mb-4"><%= title %></h1>
+      <p class="lead mb-4">A simple JWT authentication demo built with Express and MongoDB.</p>
+      <div class="d-flex justify-content-center">
+        <a href="/login" class="btn btn-primary btn-lg mr-3">Sign In</a>
+        <a href="/register" class="btn btn-outline-secondary btn-lg">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="loggedIn" class="container" style="display: none;">
+  <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-8 text-center">
+      <h1 class="display-4 mb-4">Welcome back, <span id="username"></span>!</h1>
+      <p class="lead mb-4">You are signed in as <strong id="email"></strong>.</p>
+      <button id="logoutBtn" class="btn btn-outline-danger btn-lg">Logout</button>
+    </div>
+  </div>
+</div>
+
+<div id="loading" class="container text-center" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<script>
+(function() {
+  var token = localStorage.getItem('jwt');
+  var loggedOutEl = document.getElementById('loggedOut');
+  var loggedInEl = document.getElementById('loggedIn');
+  var loadingEl = document.getElementById('loading');
+
+  if (!token) {
+    loadingEl.style.display = 'none';
+    loggedOutEl.style.display = 'block';
+    return;
+  }
+
+  fetch('/api/user', {
+    headers: { 'Authorization': 'Token ' + token }
+  })
+  .then(function(res) {
+    if (!res.ok) throw new Error('unauthorized');
+    return res.json();
+  })
+  .then(function(data) {
+    loadingEl.style.display = 'none';
+    document.getElementById('username').textContent = data.user.username;
+    document.getElementById('email').textContent = data.user.email;
+    loggedInEl.style.display = 'block';
+  })
+  .catch(function() {
+    localStorage.removeItem('jwt');
+    loadingEl.style.display = 'none';
+    loggedOutEl.style.display = 'block';
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    localStorage.removeItem('jwt');
+    window.location.href = '/';
+  });
+})();
+</script>
 <%- include('footer') %>

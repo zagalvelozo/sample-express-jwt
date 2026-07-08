@@ -1,12 +1,49 @@
 <%- include('header') %>
-<form class="form-signin" >
-      <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
-      <label for="inputUsername" class="sr-only">Username</label>
-      <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+<div class="container" style="max-width: 420px; margin-top: 80px;">
+  <h1 class="h3 mb-3 font-weight-normal text-center">Please sign up</h1>
+  <div id="error" class="alert alert-danger" style="display: none;"></div>
+  <form id="registerForm">
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input type="text" id="inputUsername" class="form-control mb-2" placeholder="Username" required autofocus>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Email address" required>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control mb-3" placeholder="Password" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+</div>
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var errorDiv = document.getElementById('error');
+  errorDiv.style.display = 'none';
+
+  fetch('/api/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      user: {
+        username: document.getElementById('inputUsername').value,
+        email: document.getElementById('inputEmail').value,
+        password: document.getElementById('inputPassword').value
+      }
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.errors) {
+      var msgs = Object.values(data.errors).join(', ');
+      errorDiv.textContent = msgs;
+      errorDiv.style.display = 'block';
+    } else if (data.user && data.user.token) {
+      localStorage.setItem('jwt', data.user.token);
+      window.location.href = '/';
+    }
+  })
+  .catch(function(err) {
+    errorDiv.textContent = 'Registration failed. Please try again.';
+    errorDiv.style.display = 'block';
+  });
+});
+</script>
 <%- include('footer') %>
